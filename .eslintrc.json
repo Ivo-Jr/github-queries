@@ -3,6 +3,7 @@
         "browser": true,
         "es2020": true
     },
+    "parser": "babel-eslint",
     "extends": [
         "plugin:react/recommended",
         "airbnb",
@@ -24,15 +25,11 @@
       "prettier/prettier": "error",
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn",
-      "react/jsx-filename-extension": [
-        1,
-        {
-        "extensions": [
-          ".tsx"
-        ]
-        }
-      ],
+      "react/jsx-filename-extension": [1, { "extensions": [ ".js", "jsx" ] }],
       "no-use-before-define": "off",
-      "react/react-in-jsx-scope": "off"
+      "react/react-in-jsx-scope": "off",
+      "import/prefer-default-export": "off",
+      "react/state-in-constructor": [1, "never"],
+      "react/no-unused-state": "off"
     }
 }
