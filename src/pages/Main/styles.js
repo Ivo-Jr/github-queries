@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export const Container = styled.div`
   max-width: 700px;
@@ -33,7 +33,23 @@ export const Form = styled.form`
     font-size: 16px;
   }
 `;
-export const SubmitButton = styled.button`
+
+// Funcionalidade 'keyframes' faz animações.
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+// ".attrs() (atributos)-> Passando propriedades do button para o css"
+export const SubmitButton = styled.button.attrs(props => ({
+  type: 'submit',
+  disabled: props.loading,
+}))`
   background: linear-gradient(-90deg, #3648ee, #36a4ee);
   border: 0;
   padding: 0 15px;
@@ -43,4 +59,19 @@ export const SubmitButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  // A funcionalidade 'css' permite que adicionemos um conjunto de css a um elemento baseado numa propriedade ou informação que vem de fora dele.
+  // Como o "svg" está formando um conjunto de propriedades, usamos a propriedade importada 'css'.
+  ${props =>
+    props.loading &&
+    css`
+      svg {
+        animation: ${rotate} 2s linear infinite;
+      }
+    `}
 `;
