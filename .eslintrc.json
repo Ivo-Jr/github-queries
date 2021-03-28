@@ -30,6 +30,7 @@
       "react/react-in-jsx-scope": "off",
       "import/prefer-default-export": "off",
       "react/state-in-constructor": [1, "never"],
-      "react/no-unused-state": "off"
+      "react/no-unused-state": "off",
+      "react/static-property-placement": [1, "static public field"]
     }
 }
