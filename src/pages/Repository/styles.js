@@ -17,9 +17,13 @@ export const Owner = styled.header`
   align-items: center;
 
   a {
-    color: #36a4ee;
+    color: #3648ee;
     font-size: 16px;
     text-decoration: none;
+
+    &:hover {
+      color: #36a4ee;
+    }
   }
 
   img {
@@ -69,18 +73,35 @@ export const IssueList = styled.ul`
     div {
       flex: 1;
       margin-left: 15px;
-    }
 
-    strong {
-      font-size: 16px;
+      strong {
+        font-size: 16px;
 
-      a {
-        text-decoration: none;
-        color: #333;
+        a {
+          text-decoration: none;
+          color: #333;
 
-        &:hover {
-          color: #36a4ee;
+          &:hover {
+            color: #36a4ee;
+          }
         }
+
+        span {
+          background: #36a4ee;
+          color: #333;
+          border-radius: 2px;
+          font-size: 12px;
+          font-weight: 600;
+          height: 20px;
+          padding: 3px 4px;
+          margin-left: 10px;
+        }
+      }
+
+      p {
+        margin-top: 5px;
+        font-size: 12px;
+        color: #999;
       }
     }
   }
