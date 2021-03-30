@@ -106,3 +106,5 @@ export const IssueList = styled.ul`
     }
   }
 `;
+
+export const Form = styled.form``;
