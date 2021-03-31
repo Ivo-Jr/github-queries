@@ -20,7 +20,7 @@ export default class Repository extends Component {
     issues: [],
     loading: true,
     filter: '',
-    newFilter: 'all',
+    newFilter: '',
   };
 
   async componentDidMount() {
@@ -32,13 +32,11 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
-          state: `${newFilter}`,
+          state: newFilter ? `${newFilter}` : 'all',
           per_page: 5,
         },
       }),
     ]);
-
-    // console.log(newFilter);
 
     this.setState({
       repository: repository.data,
@@ -84,17 +82,16 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
 
-        <Form onSubmit={this.handleSubmit}>
-          <span>List of Issues:</span>
-          <select value={newFilter} onChange={this.handleSelectChange}>
-            <option value="all">all</option>
-            <option value="open">open</option>
-            <option value="closed">closed</option>
-          </select>
-          <input type="submit" value="Filter" />
-        </Form>
-
         <IssueList>
+          <Form onSubmit={this.handleSubmit}>
+            <span>List of Issues:</span>
+            <select value={newFilter} onChange={this.handleSelectChange}>
+              <option value="all">all</option>
+              <option value="open">open</option>
+              <option value="closed">closed</option>
+            </select>
+            <input type="submit" value="Filter" />
+          </Form>
           {issues.map(issue => (
             <li key={String(issues.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />
