@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import { FaSpinner } from 'react-icons/fa/';
+import { RiArrowGoBackFill } from 'react-icons/ri';
+import { IoIosArrowBack } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Loading, Owner, IssueList, Form } from './styles';
+import { Loading, Owner, IssueList, Form, PageAction } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -19,8 +22,8 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
-    filter: '',
     newFilter: '',
+    page: 1,
   };
 
   async componentDidMount() {
@@ -28,12 +31,15 @@ export default class Repository extends Component {
     const repoName = decodeURIComponent(match.params.repository);
     const newFilter = localStorage.getItem('newFilter');
 
+    const { page } = this.state;
+
     const [repository, issues] = await Promise.all([
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
           state: newFilter ? `${newFilter}` : 'all',
           per_page: 5,
+          page: `${page}`,
         },
       }),
     ]);
@@ -53,6 +59,22 @@ export default class Repository extends Component {
     }
   }
 
+  // loadIssues = async () => {
+  //   const { match } = this.props;
+  //   const { page } = this.state;
+
+  //   const repoName = decodeURIComponent(match.params.repository);
+
+  //   const response = await api.get(`/repos/${repoName}/issues`, {
+  //     params: {
+  //       per_page: 5,
+  //       page,
+  //     },
+  //   });
+
+  //   this.setState({ issues: response.data });
+  // };
+
   handleSelectChange = e => {
     this.setState({ newFilter: e.target.value });
   };
@@ -66,20 +88,57 @@ export default class Repository extends Component {
     this.componentDidMount();
   };
 
-  render() {
-    const { repository, issues, loading, newFilter } = this.state;
+  handlePage = async action => {
+    const { page } = this.state;
 
+    await this.setState({
+      page: action === 'back' ? page - 1 : page + 1,
+    });
+
+    this.componentDidMount();
+
+    //  rodapé page: 2
+    //  pagina web: 3 -> consultar state: 3
+    //  state: 2
+
+    // this.loadIssues();
+  };
+
+  render() {
+    const { repository, issues, loading, newFilter, page } = this.state;
+
+    /**
+     * Esse loading tem duas funções: 1º Espera o component didMount realizar a chamada a API
+     para então carregar as informações. Logo, caso não tivesse esse carregamento, o react tentaria mostrar
+     em tela uma informeção que anda não está dosponivel, assim o aplicativo quebraria e ele acusaria que o
+     "repository.owner.avatar_url" é undefined. Obviamente isso aconteceria, pois estaria tentando mostrar algo
+     que ainda não tem.
+     2º O loading deixa a tela mais performatica e dá um aspecto de fluides e comunicação com o usuário.
+    */
     if (loading) {
-      return <Loading>Carregando...</Loading>;
+      return (
+        <Loading loading={loading}>
+          Carregando... <FaSpinner color="#fff" size={26} />{' '}
+        </Loading>
+      );
     }
 
     return (
       <Container>
         <Owner>
-          <Link to="/">Voltar aos repositórios</Link>
-          <img src={repository.owner.avatar_url} alt={repository.owner.login} />
-          <h1>{repository.name}</h1>
-          <p>{repository.description}</p>
+          <header>
+            <Link to="/">
+              Back to repositories <RiArrowGoBackFill size={16} />
+            </Link>
+          </header>
+          <div>
+            <img
+              src={repository.owner.avatar_url}
+              alt={repository.owner.login}
+            />
+            <h1>{repository.name}</h1>
+            <p>{repository.description}</p>
+          </div>
         </Owner>
 
         <IssueList>
@@ -109,6 +168,19 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <PageAction>
+          <button
+            onClick={() => this.handlePage('back')}
+            type="button"
+            disabled={page < 2}
+          >
+            <IoIosArrowBack size={13} />
+          </button>
+          <span> Page {page} </span>
+          <button onClick={() => this.handlePage('next')} type="button">
+            <IoIosArrowBack size={13} className="rotated" />
+          </button>
+        </PageAction>
       </Container>
     );
   }

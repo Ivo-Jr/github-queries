@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
-export const Loading = styled.div`
+export const Loading = styled.div.attrs({})`
   color: #fff;
   font-size: 30px;
   font-weight: bold;
@@ -9,27 +9,61 @@ export const Loading = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+
+  ${props =>
+    props.loading &&
+    css`
+      svg {
+        animation: ${rotate} 2s linear infinite;
+        margin-left: 20px;
+      }
+    `}
+`;
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 `;
 
 export const Owner = styled.header`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  header {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    text-align: right;
 
-  a {
-    color: #3648ee;
-    font-size: 16px;
-    text-decoration: none;
+    a {
+      color: #3648ee;
+      font-size: 16px;
+      text-decoration: none;
+      font-style: italic;
 
-    &:hover {
-      color: #36a4ee;
+      svg {
+        color: #3648ee;
+        margin-left: 2px;
+        padding-top: 2px;
+      }
+
+      &:hover {
+        color: #36a4ee;
+      }
     }
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   img {
     width: 120px;
     border-radius: 50%;
-    margin-top: 20px;
+    margin-top: 5px;
   }
 
   h1 {
@@ -133,5 +167,40 @@ export const Form = styled.form`
     background: #eee;
 
     cursor: pointer;
+  }
+`;
+
+export const PageAction = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  button {
+    margin: 10px;
+    padding: 2px;
+    border-radius: 3px;
+    border: 1px solid;
+
+    cursor: pointer;
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  span {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  button {
+    rotate: 90;
   }
 `;
