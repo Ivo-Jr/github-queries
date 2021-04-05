@@ -1,6 +1,6 @@
 
 <h1 align="center">
-    <img alt="InbotFlix" src="https://miro.medium.com/max/2568/1*nTk_aV3yziTsz7QbDsqnkA.png" width="300px" />
+    <img alt="InbotFlix" src="https://miro.medium.com/max/2568/1*nTk_aV3yziTsz7QbDsqnkA.png" width="400px" border-radius="50px" />
 </h1>
 
 
@@ -47,8 +47,6 @@ $ yarn or npm install
 $ yarn or npm start
 ```
 
-
-```
 
 ## :sunny: Result
 
