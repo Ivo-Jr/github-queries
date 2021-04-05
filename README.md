@@ -1,6 +1,6 @@
 
 <h1 align="center">
-    <img alt="InbotFlix" src="https://miro.medium.com/max/2568/1*nTk_aV3yziTsz7QbDsqnkA.png" width="400px" border-radius="50px" />
+    <img alt="InbotFlix" src="https://miro.medium.com/max/2568/1*nTk_aV3yziTsz7QbDsqnkA.png" width="400px" border-radius={50px} />
 </h1>
 
 
